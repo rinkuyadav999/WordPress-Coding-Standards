@@ -143,6 +143,12 @@ class WordPress_Sniffs_Theme_CorrectTGMPAVersionSniff implements PHP_CodeSniffer
 			return;
 		}
 
+		$first_class_token = $phpcsFile->findNext( T_CLASS, 0 );
+		// Uh-oh, no class found at all, so this can't be the TGMPA class file after all.
+		if ( false === $first_class_token ) {
+			return;
+		}
+
 		/*
 		 * Ok, we are in a file which contains code typical for TGMPA.
 		 * Walk the doc block comments before the class declaration to find if this is the correct version.
@@ -150,18 +156,11 @@ class WordPress_Sniffs_Theme_CorrectTGMPAVersionSniff implements PHP_CodeSniffer
 		 */
 		$tokens 		   = $phpcsFile->getTokens();
 		$next_doc_block	   = 0;
-		$first_class_token = $phpcsFile->findNext( T_CLASS, 0 );
 
 		while ( ( $next_doc_block = $phpcsFile->findNext( T_DOC_COMMENT_OPEN_TAG, ( $next_doc_block + 1 ), $first_class_token ) ) !== false ) {
 
 			$tags = $this->get_docblock_tags( $phpcsFile, $next_doc_block );
 			if ( empty( $tags ) ) {
-				continue;
-			}
-
-			if ( isset( $tags['subpackage'] ) && 'Example' === $tags['subpackage'] ) {
-				// Not the TGMPA class file doc block, but the example file doc block.
-				// Some authors put both in the same file, so just move on.
 				continue;
 			}
 
