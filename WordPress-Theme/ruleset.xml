@@ -37,6 +37,9 @@
 
 	<!-- Discourage a number of functions for usage in a theme. -->
 	<rule ref="WordPress.PHP.DiscouragedFunctions"/>
+	<rule ref="WordPress.PHP.POSIXFunctions"/>
+	<rule ref="WordPress.DB.RestrictedClasses"/>
+	<rule ref="WordPress.DB.RestrictedFunctions"/>
 
 
 </ruleset>
