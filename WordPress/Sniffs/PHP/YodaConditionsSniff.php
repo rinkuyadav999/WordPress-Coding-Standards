@@ -1,20 +1,20 @@
 <?php
 /**
- * Enforces Yoda conditional statements , based upon Squiz code.
+ * WordPress Coding Standard.
  *
- * @category PHP
- * @package  PHP_CodeSniffer
- * @author   Matt Robinson
+ * @package WPCS\WordPressCodingStandards
+ * @link    https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
+ * @license https://opensource.org/licenses/MIT MIT
  */
 
 /**
  * Enforces Yoda conditional statements.
  *
- * @category PHP
- * @package  PHP_CodeSniffer
- * @author   John Godley <john@urbangiraffe.com>
- * @author   Greg Sherwood <gsherwood@squiz.net>
- * @author   Marc McIntyre <mmcintyre@squiz.net>
+ * @link    https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/#yoda-conditions
+ *
+ * @package WPCS\WordPressCodingStandards
+ *
+ * @since   0.3.0
  */
 class WordPress_Sniffs_PHP_YodaConditionsSniff implements PHP_CodeSniffer_Sniff {
 
@@ -31,7 +31,7 @@ class WordPress_Sniffs_PHP_YodaConditionsSniff implements PHP_CodeSniffer_Sniff 
 			T_IS_NOT_IDENTICAL,
 		);
 
-	} // end register()
+	}
 
 	/**
 	 * Processes this test, when one of its tokens is encountered.
@@ -50,7 +50,7 @@ class WordPress_Sniffs_PHP_YodaConditionsSniff implements PHP_CodeSniffer_Sniff 
 			, array( T_IF, T_ELSEIF )
 		);
 
-		$beginning = $phpcsFile->findPrevious( $beginners, $stackPtr, null, null, null, true );
+		$beginning = $phpcsFile->findPrevious( $beginners, $stackPtr, null, false, null, true );
 
 		$needs_yoda = false;
 
@@ -100,6 +100,6 @@ class WordPress_Sniffs_PHP_YodaConditionsSniff implements PHP_CodeSniffer_Sniff 
 
 		$phpcsFile->addError( 'Use Yoda Condition checks, you must', $stackPtr, 'NotYoda' );
 
-	} // end process()
+	} // End process().
 
-} // end class
+} // End class.

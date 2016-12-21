@@ -9,12 +9,13 @@
 	<!-- Covers: https://github.com/Otto42/theme-check/blob/master/checks/phpshort.php -->
 	<rule ref="Generic.PHP.DisallowShortOpenTag" />
 
-	<!-- Only UNIX line endings allowed. -->
+	<!-- Alternative PHP open tags not allowed. -->
+	<rule ref="Generic.PHP.DisallowAlternativePHPTags"/>
+
+	<!-- Mixed line endings are not allowed. -->
 	<!-- Covers: https://github.com/Otto42/theme-check/blob/master/checks/lineendings.php -->
-	<rule ref="Generic.Files.LineEndings">
-		<properties>
-			<property name="eolChar" value="\n"/>
-		</properties>
+	<rule ref="Internal.LineEndings.Mixed">
+		<type>error</type>
 	</rule>
 
 	<!-- No ByteOrderMark allowed - important to prevent issues with content being sent before headers. -->
@@ -27,5 +28,49 @@
 	<!-- Check that the I18N functions are used correctly. -->
 	<!-- This sniff can also check the text domain, provided it's passed to PHPCS. -->
 	<rule ref="WordPress.WP.I18n" />
+
+	<!-- No hard coding of scripts and styles. Everything should be enqueued. -->
+	<rule ref="WordPress.WP.EnqueuedResources" />
+
+	<!-- Prevent path disclosure when using add_theme_page(). -->
+	<rule ref="WordPress.VIP.PluginMenuSlug"/>
+
+	<!-- Do not silence error notices. e.g. Error Control Operator @.. -->
+	<rule ref="Generic.PHP.NoSilencedErrors">
+		<properties>
+			<property name="error" value="true"/>
+		</properties>
+	</rule>
+
+
+
+	<!-- Validate and/or sanitize untrusted data before entering into the database. -->
+	<!--
+		Revert to changing the type at the sniff level instead of the error code level
+		once the PR has been merged and the miminmum PHPCS version has been increased.
+		https://github.com/squizlabs/PHP_CodeSniffer/pull/1247
+	-->
+	<rule ref="WordPress.VIP.ValidatedSanitizedInput.InputNotValidated">
+		<type>warning</type>
+	</rule>
+	<rule ref="WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized">
+		<type>warning</type>
+	</rule>
+
+	<!-- All untrusted data should be escaped before output. -->
+	<!--
+		Revert to changing the type at the sniff level instead of the error code level
+		once the PR has been merged and the miminmum PHPCS version has been increased.
+		https://github.com/squizlabs/PHP_CodeSniffer/pull/1247
+	-->
+	<rule ref="WordPress.XSS.EscapeOutput.UnsafePrintingFunction">
+		<type>warning</type>
+	</rule>
+	<rule ref="WordPress.XSS.EscapeOutput.OutputNotEscaped">
+		<type>warning</type>
+	</rule>
+
+	<!-- Prohibit the use of the backtick operator. -->
+	<rule ref="Generic.PHP.BacktickOperator"/>
 
 </ruleset>
